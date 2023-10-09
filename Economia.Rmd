@@ -1,0 +1,91 @@
+---
+title: "Trabajo de Economía"
+university: "Ceu San Pablo"
+grado: "Ingeniería Matemática"
+author: "Javier Caletrio Misas"
+date: "05/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+```{r}
+# Cargar todas las librerías necesarias
+library(readr)
+library(dplyr)
+library(knitr)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+# Crear un dataframe con los datos proporcionados del PIB real de Alemania
+data_pibreal <- data.frame(
+  Año = c(2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022),
+  PIB_Real_Millones = c(
+    3373000.7, 3501729.3, 3605956.7, 3640569.6, 3433281.5, 3576788.6, 3717184.5,
+    3732740.8, 3749074.9, 3831912.4, 3889081.9, 3975808.4, 4082369.3, 4122426.8,
+    4166762.3, 4007310.0, 4134094.1, 4208764.4
+  )
+)
+
+# Mostrar el dataframe del PIB real de Alemania
+print(data_pibreal)
+
+# Calcular la tasa de variación del PIB real en porcentaje
+tasa_variacion <- (data_pibreal$PIB_Real_Millones - lag(data_pibreal$PIB_Real_Millones)) / lag(data_pibreal$PIB_Real_Millones) * 100
+
+# Crear un nuevo dataframe con la tasa de variación
+data_tasa_variacion <- data.frame(
+  Año = data_pibreal$Año,
+  Tasa_Variacion_PIB_Real = tasa_variacion
+)
+
+# Mostrar el nuevo dataframe con la tasa de variación
+print(data_tasa_variacion)
+````
+
+
+```{r}
+# Crear un dataframe con los datos proporcionados del PIB nominal de Alemania
+data_pibnominal <- data.frame(
+  Año = c(2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022),
+  PIB_Nominal_Millones = c(
+    2622039.8, 2813824.9, 2985617.3, 3103958.2, 3015332.3, 3185267.9, 3415020.0,
+    3487234.4, 3628559.3, 3807114.5, 3889081.9, 4165169.9, 4386729.2, 4576056.5,
+    4770495.5, 4694786.2, 4913166.1, 5323008.1
+  )
+)
+
+# Mostrar el dataframe del PIB nominal de Alemania
+print(data_pibnominal)
+
+# Calcular la tasa de variación del PIB nominal de Alemania
+data_pibnominal$Tasa_Variacion <- c(NA, diff(data_pibnominal$PIB_Nominal_Millones) / data_pibnominal$PIB_Nominal_Millones[-length(data_pibnominal$PIB_Nominal_Millones)] * 100)
+
+# Mostrar el dataframe del PIB nominal de Alemania con la tasa de variación
+print(data_pibnominal)
+```
+
+
+```{r}
+# Cargar la biblioteca ggplot2 para crear gráficos
+library(ggplot2)
+
+# Combina los dataframes de la tasa de variación del PIB real y del PIB nominal por el año
+combined_data <- merge(data_tasa_variacion, data_pibnominal, by = "Año")
+
+# Crea un gráfico de líneas agrupado con la diferencia de las tasas de variación en diferentes colores
+ggplot(combined_data, aes(x = Año)) +
+  geom_line(aes(y = Tasa_Variacion_PIB_Real, color = "Tasa de Variación PIB Real")) +
+  geom_line(aes(y = Tasa_Variacion, color = "Tasa de Variación PIB Nominal")) +
+  labs(
+    title = "Diferencia de las Tasas de Variación del PIB Real y PIB Nominal de Alemania",
+    x = "Año",
+    y = "Tasa de Variación (%)",
+    color = "Indicador"
+  ) +
+  scale_color_manual(values = c("Tasa de Variación PIB Real" = "blue", "Tasa de Variación PIB Nominal" = "red")) +
+  theme_minimal()
+```
