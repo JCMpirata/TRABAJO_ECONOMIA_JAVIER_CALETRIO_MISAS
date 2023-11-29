@@ -95,7 +95,6 @@ ggplot(combined_data, aes(x = Año)) +
 ```{r}
 # Cargar la librería necesaria
 library(dplyr)
-
 # Crear un dataframe con los datos
 data_desempleados <- data.frame(
   Time = c(2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022),
@@ -103,19 +102,39 @@ data_desempleados <- data.frame(
   Unit = "Percentage",
   UnemploymentRate = c(11.3, 10.3, 8.5, 7.4, 7.2, 6.6, 5.5, 5.1, 5.0, 4.7, 4.4, 3.9, 3.6, 3.2, 3.0, 3.6, 3.6, 3.1)
 )
-
 # Imprimir el dataframe
 print(data_desempleados)
-
 # Cargar la librería ggplot2
 library(ggplot2)
-
 # Crear un gráfico de líneas
 ggplot(data_desempleados, aes(x = Time, y = UnemploymentRate)) +
-  geom_line() +
+  geom_line(aes(color = "Tasa de desempleo")) +
   labs(
     title = "Tasa de desempleo en Alemania (2005-2022)",
     x = "Año",
-    y = "Tasa de desempleo (%)"
-  )
+    y = "Tasa de desempleo (%)",
+    color = "Indicador"
+  ) +
+  scale_color_manual(values = c("Tasa de desempleo" = "green")) +
+  theme_minimal()
+```
+  
+```{r}
+# Calcular la correlación entre las tasas de desempleo y variación del PIB real de forma numérica
+correlation <- as.numeric(cor(data_desempleados$UnemploymentRate, data_tasa_variacion$Tasa_Variacion_PIB_Real))
+
+# Imprimir la correlación de forma numérica
+print(correlation)
+
+# Crear un gráfico de dispersión
+ggplot(data = data.frame(UnemploymentRate = data_desempleados$UnemploymentRate, Tasa_Variacion_PIB_Real = data_tasa_variacion$Tasa_Variacion_PIB_Real)) +
+  geom_point(aes(x = UnemploymentRate, y = Tasa_Variacion_PIB_Real), color = "blue") +
+  labs(
+    title = "Correlación entre Tasa de Desempleo y Variación del PIB Real (Ley de Okun)",
+    x = "Tasa de Desempleo (%)",
+    y = "Tasa de Variación del PIB Real (%)"
+  ) +
+  annotate("text", x = max(data_desempleados$UnemploymentRate), y = min(data_tasa_variacion$Tasa_Variacion_PIB_Real), 
+           label = paste("Correlación:", round(correlation, 2)), hjust = 1, vjust = -1) +
+  theme_minimal()
 ```
