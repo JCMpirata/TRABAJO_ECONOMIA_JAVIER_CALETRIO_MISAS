@@ -210,51 +210,6 @@ data_deflactor_pib <- data.frame(
 print(data_deflactor_pib)
 
 
-# Crear un gráfico de líneas para la tasa de inflación subyacente
-plot(data_inflacion_subyacente$Año, data_inflacion_subyacente$Tasa_Inflacion_Subyacente, 
-     type = "l", col = "blue",
-     xlab = "Año", ylab = "Tasa de Inflación Subyacente (%)",
-     main = "Tasa de Inflación Subyacente en Alemania (2005-2022)")
-# Agregar línea para el deflactor del PIB
-lines(data_deflactor_pib$Año, data_deflactor_pib$Deflactor_PIB, type = "l", col = "red")
-# Agregar leyenda
-legend("topright", legend = c("Tasa Inflación Subyacente", "Deflactor del PIB"),
-       col = c("blue", "red"), lty = 1)
-# Añadir etiquetas
-text(max(data_inflacion_subyacente$Año), max(data_inflacion_subyacente$Tasa_Inflacion_Subyacente),
-     "Tasa Inflación Subyacente", col = "blue", pos = 4)
-
-text(max(data_deflactor_pib$Año), max(data_deflactor_pib$Deflactor_PIB),
-     "Deflactor del PIB", col = "red", pos = 4)
-
-
-# Crear un gráfico de líneas para la tasa de inflación, inflación subyacente y deflactor del PIB
-plot(data_inflacion_subyacente$Año, data_inflacion_subyacente$Tasa_Inflacion_Subyacente, 
-     type = "l", col = "blue",
-     xlab = "Año", ylab = "Tasa de Inflación Subyacente (%)",
-     main = "Tasa de Inflación, Inflación Subyacente y Deflactor del PIB en Alemania (2005-2022)")
-
-lines(data_deflactor_pib$Año, data_deflactor_pib$Deflactor_PIB, type = "l", col = "red")
-
-lines(tasa_de_inflacion$Time, tasa_de_inflacion$TasadeInflacion, type = "l", col = "green")
-
-# Agregar leyenda
-legend("topright", legend = c("Tasa Inflación Subyacente", "Deflactor del PIB", "Tasa de Inflación"),
-       col = c("blue", "red", "green"), lty = 1)
-
-# Añadir etiquetas
-text(max(data_inflacion_subyacente$Año), max(data_inflacion_subyacente$Tasa_Inflacion_Subyacente),
-     "Tasa Inflación Subyacente", col = "blue", pos = 4)
-
-text(max(data_deflactor_pib$Año), max(data_deflactor_pib$Deflactor_PIB),
-     "Deflactor del PIB", col = "red", pos = 4)
-
-text(max(tasa_de_inflacion$Time), max(tasa_de_inflacion$TasadeInflacion),
-     "Tasa de Inflación", col = "green", pos = 4)
-
-
-
-
 # Cargar la librería ggplot2
 library(ggplot2)
 
