@@ -148,47 +148,47 @@ library(dplyr)
 library(ggplot2)
 
 # Crear un dataframe con los datos del tipo de interés nominal de Alemania
-tasa_de_interes <- data.frame(
+tipo_de_interes <- data.frame(
   Time = c(2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022),
   Country = "Germany",
   Type = "Information on item",
-  TasadeInteres = c(3.354, 3.764, 4.217, 3.985, 3.222, 2.744, 2.609, 1.495, 1.571, 1.163, 0.495, 0.091, 0.316, 0.396, -0.254, -0.511, -0.374, 1.143)
+  Tipo_de_Interes_Nominal_Largo_Plazo = c(3.354, 3.764, 4.217, 3.985, 3.222, 2.744, 2.609, 1.495, 1.571, 1.163, 0.495, 0.091, 0.316, 0.396, -0.254, -0.511, -0.374, 1.143)
 )
 
 # Imprimir el dataframe de la tasa de interés nominal de Alemania
-print(tasa_de_interes)
+print(tipo_de_interes)
 
 # Crear un dataframe con los datos de la tasa de inflación de Alemania
 tasa_de_inflacion <- data.frame(
   Time = c(2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022),
   Country = rep("Germany", 18),
   Type = rep("Information on item", 18),
-  TasadeInflacion = c(1.5, 1.6, 2.3, 2.6, 0.3, 1.1, 2.1, 2.0, 1.5, 0.9, 0.5, 0.5, 1.5, 1.7, 1.4, 0.1, 3.1, 6.9)
+  Tasa_de_Inflacion = c(1.5, 1.6, 2.3, 2.6, 0.3, 1.1, 2.1, 2.0, 1.5, 0.9, 0.5, 0.5, 1.5, 1.7, 1.4, 0.1, 3.1, 6.9)
 )
 
 # Imprimir el dataframe de la tasa de inflación de Alemania
 print(tasa_de_inflacion)
 
 # Calcular el tipo de interés real para Alemania
-tasa_de_interes_real <- tasa_de_interes %>%
+tipo_interes_real <- tipo_de_interes %>%
   left_join(tasa_de_inflacion, by = c("Time", "Country", "Type")) %>%
-  mutate(InteresReal = (TasadeInteres - TasadeInflacion))
+  mutate(Tipo_Interes_Real = (Tipo_de_Interes_Nominal_Largo_Plazo - Tasa_de_Inflacion))
 
 # Imprimir el resultado
-print(tasa_de_interes_real)
+print(tipo_interes_real)
 
-# Crear un gráfico de líneas representando la tasa de interés real, la tasa de interés nominal y la tasa de inflación
-ggplot(tasa_de_interes_real, aes(x = Time)) +
-  geom_line(aes(y = InteresReal, color = "Tasa de Interés Real")) +
-  geom_line(aes(y = TasadeInteres, color = "Tasa de Interés Nominal")) +
-  geom_line(aes(y = TasadeInflacion, color = "Tasa de Inflación")) +
+# Crear un gráfico de líneas representando la tipo de interés real, el tipo de interés nominal y la tasa de inflación
+ggplot(tipo_interes_real, aes(x = Time)) +
+  geom_line(aes(y = Tipo_Interes_Real, color = "Tipo de Interés Real")) +
+  geom_line(aes(y = Tipo_de_Interes_Nominal_Largo_Plazo, color = "Tipo de Interés Nominal")) +
+  geom_line(aes(y = Tasa_de_Inflacion, color = "Tasa de Inflación")) +
   labs(
-    title = "Tasa de Interés Real, Tasa de Interés Nominal y Tasa de Inflación en Alemania (2005-2022)",
+    title = "Tipo de Interés Real, Tipo de Interés Nominal y Tasa de Inflación en Alemania (2005-2022)",
     x = "Año",
     y = "Tasa (%)",
     color = "Indicador"
   ) +
-  scale_color_manual(values = c("Tasa de Interés Real" = "blue", "Tasa de Interés Nominal" = "red", "Tasa de Inflación" = "green")) +
+  scale_color_manual(values = c("Tipo de Interés Real" = "blue", "Tipo de Interés Nominal" = "red", "Tasa de Inflación" = "green")) +
   theme_minimal()
 
 # Crear un dataframe con los datos proporcionados de la tasa de inflación subyacente
@@ -230,7 +230,7 @@ combined_data <- merge(combined_data, tasa_de_inflacion, by.x = "Año", by.y = "
 ggplot(combined_data, aes(x = Año)) +
   geom_line(aes(y = Tasa_Inflacion_Subyacente, color = "Tasa de Inflación Subyacente")) +
   geom_line(aes(y = Tasa_Variacion_Deflactor_PIB, color = "Tasa variacion Deflactor del PIB")) +
-  geom_line(aes(y = TasadeInflacion, color = "Tasa de Inflación")) +
+  geom_line(aes(y = Tasa_de_Inflacion, color = "Tasa de Inflación")) +
   labs(
     title = "Tasa de Inflación, Inflación Subyacente y Tasa variación Deflactor del PIB en Alemania (2005-2022)",
     x = "Año",
