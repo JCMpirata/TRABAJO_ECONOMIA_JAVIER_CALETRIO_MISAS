@@ -232,3 +232,39 @@ ggplot(combined_data, aes(x = Año)) +
   theme_minimal()
 
 ```
+
+# PARTE 4
+
+```{r}
+# Calcular el deflactor del PIB usando los datos del PIB real y nominal proporcionados
+data_deflactor_pib2 <- data.frame(
+  Año = data_pibreal$Año,
+  Deflactor_PIB = (data_pibnominal$PIB_Nominal_Millones / data_pibreal$PIB_Real_Millones)
+)
+
+# Imprimir el dataframe del deflactor del PIB
+print(data_deflactor_pib2)
+
+
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un dataframe combinando las tres fuentes de datos
+combined_data <- merge(data_inflacion_subyacente, data_deflactor_pib2, by = "Año")
+combined_data <- merge(combined_data, tasa_de_inflacion, by.x = "Año", by.y = "Time")
+
+# Crear el gráfico de líneas
+ggplot(combined_data, aes(x = Año)) +
+  geom_line(aes(y = Tasa_Inflacion_Subyacente, color = "Tasa de Inflación Subyacente")) +
+  geom_line(aes(y = Deflactor_PIB, color = "Deflactor del PIB")) +
+  geom_line(aes(y = TasadeInflacion, color = "Tasa de Inflación")) +
+  labs(
+    title = "Tasa de Inflación, Inflación Subyacente y Deflactor del PIB en Alemania (2005-2022)",
+    x = "Año",
+    y = "Tasa (%)",
+    color = "Indicador"
+  ) +
+  scale_color_manual(values = c("Tasa de Inflación Subyacente" = "blue", "Deflactor del PIB" = "red", "Tasa de Inflación" = "green")) +
+  theme_minimal()
+
+```
