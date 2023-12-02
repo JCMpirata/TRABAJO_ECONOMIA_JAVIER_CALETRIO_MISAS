@@ -209,26 +209,35 @@ data_deflactor_pib <- data.frame(
 # Imprimir el dataframe del deflactor del PIB
 print(data_deflactor_pib)
 
+# Crear un dataframe con los datos de la tasa de variación del deflactor del PIB
+tasa_variacion_deflactor_pib <- data.frame(
+  Año = data_deflactor_pib$Año,
+  Tasa_Variacion_Deflactor_PIB = c(NA, diff(data_deflactor_pib$Deflactor_PIB) / data_deflactor_pib$Deflactor_PIB[-length(data_deflactor_pib$Deflactor_PIB)] * 100)
+)
+
+# Imprimir el dataframe de la tasa de variación del deflactor del PIB
+print(tasa_variacion_deflactor_pib)
+
 
 # Cargar la librería ggplot2
 library(ggplot2)
 
 # Crear un dataframe combinando las tres fuentes de datos
-combined_data <- merge(data_inflacion_subyacente, data_deflactor_pib, by = "Año")
+combined_data <- merge(data_inflacion_subyacente, tasa_variacion_deflactor_pib, by = "Año")
 combined_data <- merge(combined_data, tasa_de_inflacion, by.x = "Año", by.y = "Time")
 
 # Crear el gráfico de líneas
 ggplot(combined_data, aes(x = Año)) +
   geom_line(aes(y = Tasa_Inflacion_Subyacente, color = "Tasa de Inflación Subyacente")) +
-  geom_line(aes(y = Deflactor_PIB, color = "Deflactor del PIB")) +
+  geom_line(aes(y = Tasa_Variacion_Deflactor_PIB, color = "Tasa variacion Deflactor del PIB")) +
   geom_line(aes(y = TasadeInflacion, color = "Tasa de Inflación")) +
   labs(
-    title = "Tasa de Inflación, Inflación Subyacente y Deflactor del PIB en Alemania (2005-2022)",
+    title = "Tasa de Inflación, Inflación Subyacente y Tasa variación Deflactor del PIB en Alemania (2005-2022)",
     x = "Año",
     y = "Tasa (%)",
     color = "Indicador"
   ) +
-  scale_color_manual(values = c("Tasa de Inflación Subyacente" = "blue", "Deflactor del PIB" = "red", "Tasa de Inflación" = "green")) +
+  scale_color_manual(values = c("Tasa de Inflación Subyacente" = "blue", "Tasa variacion Deflactor del PIB" = "red", "Tasa de Inflación" = "green")) +
   theme_minimal()
 
 ```
