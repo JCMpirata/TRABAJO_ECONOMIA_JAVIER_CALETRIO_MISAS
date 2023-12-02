@@ -81,7 +81,7 @@ ggplot(combined_data, aes(x = Año)) +
   geom_line(aes(y = Tasa_Variacion_PIB_Real, color = "Tasa de Variación PIB Real")) +
   geom_line(aes(y = Tasa_Variacion, color = "Tasa de Variación PIB Nominal")) +
   labs(
-    title = "Diferencia de las Tasas de Variación del PIB Real y PIB Nominal de Alemania",
+    title = "Tasa de Variación del PIB Real y Tasa de Variación PIB Nominal",
     x = "Año",
     y = "Tasa de Variación (%)",
     color = "Indicador"
@@ -183,7 +183,7 @@ ggplot(tipo_interes_real, aes(x = Time)) +
   geom_line(aes(y = Tipo_de_Interes_Nominal_Largo_Plazo, color = "Tipo de Interés Nominal")) +
   geom_line(aes(y = Tasa_de_Inflacion, color = "Tasa de Inflación")) +
   labs(
-    title = "Tipo de Interés Real, Tipo de Interés Nominal y Tasa de Inflación en Alemania (2005-2022)",
+    title = "Tipo de Interés Real, Tipo de Interés Nominal y Tasa de Inflación",
     x = "Año",
     y = "Tasa (%)",
     color = "Indicador"
@@ -232,7 +232,7 @@ ggplot(combined_data, aes(x = Año)) +
   geom_line(aes(y = Tasa_Variacion_Deflactor_PIB, color = "Tasa variacion Deflactor del PIB")) +
   geom_line(aes(y = Tasa_de_Inflacion, color = "Tasa de Inflación")) +
   labs(
-    title = "Tasa de Inflación, Inflación Subyacente y Tasa variación Deflactor del PIB en Alemania (2005-2022)",
+    title = "Tasa de Inflación, Inflación Subyacente y Tasa variación Deflactor del PIB",
     x = "Año",
     y = "Tasa (%)",
     color = "Indicador"
