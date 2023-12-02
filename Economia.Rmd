@@ -172,7 +172,7 @@ print(tasa_de_inflacion)
 # Calcular el tipo de interés real para Alemania
 tasa_de_interes_real <- tasa_de_interes %>%
   left_join(tasa_de_inflacion, by = c("Time", "Country", "Type")) %>%
-  mutate(InteresReal = (TasadeInteres - TasadeInflacion) / (1 + TasadeInflacion))
+  mutate(InteresReal = (TasadeInteres - TasadeInflacion))
 
 # Imprimir el resultado
 print(tasa_de_interes_real)
